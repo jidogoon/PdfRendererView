@@ -1,12 +1,12 @@
 package com.jidogoon.pdfrendererview
 
 import android.content.Context
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import kotlinx.coroutines.experimental.launch
 import java.io.File
 
 /**
@@ -15,14 +15,9 @@ import java.io.File
 class PdfRendererView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var pdfRendererCore: PdfRendererCore
     private lateinit var pdfViewAdapter: PdfViewAdapter
-
-    init {
-        val v = LayoutInflater.from(context).inflate(R.layout.layout_lib_pdf_rendererview, this, false)
-        recyclerView = v.findViewById(R.id.recyclerView)
-    }
 
     fun initWithUrl(url: String) {
         PdfDownloader(url, object : PdfDownloader.StatusListener {
@@ -38,16 +33,16 @@ class PdfRendererView @JvmOverloads constructor(
     }
 
     fun initWithFile(file: File) {
-        launch {
-            pdfRendererCore = PdfRendererCore(file)
-            pdfViewAdapter = PdfViewAdapter(pdfRendererCore)
+        pdfRendererCore = PdfRendererCore(file)
+        pdfViewAdapter = PdfViewAdapter(pdfRendererCore)
+        handler.post({
+            val v = LayoutInflater.from(context).inflate(R.layout.layout_lib_pdf_rendererview, this, false)
+            addView(v)
+            recyclerView = findViewById(R.id.recyclerView)
             recyclerView.apply {
                 adapter = pdfViewAdapter
-                //layoutManager = LinearLayoutManager(context)
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                //setHasFixedSize(true)
             }
-            pdfViewAdapter.notifyDataSetChanged()
-        }
+        })
     }
 }

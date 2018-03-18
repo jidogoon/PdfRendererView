@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PdfRendererView.iml" filepath="$PROJECT_DIR$/PdfRendererView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appPdfRendererView/appPdfRendererView.iml" filepath="$PROJECT_DIR$/appPdfRendererView/appPdfRendererView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libPdfRendererView/libPdfRendererView.iml" filepath="$PROJECT_DIR$/libPdfRendererView/libPdfRendererView.iml" />
+    </modules>
+  </component>
+</project>
