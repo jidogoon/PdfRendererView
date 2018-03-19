@@ -1,8 +1,6 @@
 # PdfRendererView
 [![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
 
-PdfRendererView
-================
 `PdfRendererView` is a PDF renderer view using Android PDFRenderer API (added in API 21)
 (https://developer.android.com/reference/android/graphics/pdf/PdfRenderer.html)
 
