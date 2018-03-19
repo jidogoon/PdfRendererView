@@ -16,15 +16,27 @@ class PdfRendererView @JvmOverloads constructor(
     private lateinit var recyclerView: RecyclerView
     private lateinit var pdfRendererCore: PdfRendererCore
     private lateinit var pdfViewAdapter: PdfViewAdapter
+    var statusListener: StatusCallBack? = null
+
+    interface StatusCallBack {
+        fun onDownloadStart() {}
+        fun onDownloadSuccess() {}
+        fun onError(error: Throwable) {}
+    }
 
     fun initWithUrl(url: String) {
         PdfDownloader(url, object : PdfDownloader.StatusListener {
             override fun getContext(): Context = context
+            override fun onDownloadStart() {
+                statusListener?.onDownloadStart()
+            }
             override fun onDownloadSuccess(absolutePath: String) {
                 initWithPath(absolutePath)
+                statusListener?.onDownloadSuccess()
             }
             override fun onError(error: Throwable) {
                 error.printStackTrace()
+                statusListener?.onError(error)
             }
         })
     }
@@ -34,7 +46,7 @@ class PdfRendererView @JvmOverloads constructor(
     }
 
     fun initWithFile(file: File) {
-        handler.post({ init(file) })
+        init(file)
     }
 
     private fun init(file: File) {

@@ -25,7 +25,7 @@ dependencies {
     implementation fileTree(include: ["*.jar"], dir: "libs")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$rootProject.supportLib"
-    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation "com.facebook.stetho:stetho:1.5.0"
     implementation project(":libPdfRendererView")
     testImplementation "junit:junit:4.12"
     androidTestImplementation "com.android.support.test:runner:1.0.1"
