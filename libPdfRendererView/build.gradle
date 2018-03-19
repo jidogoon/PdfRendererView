@@ -1,6 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'jidogoon'
+    groupId = 'com.jidogoon'
+    artifactId = 'PdfRendererView'
+    publishVersion = '1.0'
+    desc = 'PdfRendererView based on Android PdfRenderer (added in API 21)'
+    website = 'https://github.com/jidogoon/PdfRendererView'
+}
 
 android {
     compileSdkVersion rootProject.compileSdk
@@ -23,6 +33,10 @@ android {
         experimental {
             coroutines "enable"
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
