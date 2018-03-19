@@ -1,6 +1,8 @@
 package com.jidogoon.pdfrendererview
 
 import android.content.Context
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -32,16 +34,20 @@ class PdfRendererView @JvmOverloads constructor(
     }
 
     fun initWithFile(file: File) {
-        handler.post({
-            pdfRendererCore = PdfRendererCore(context, file)
-            pdfViewAdapter = PdfViewAdapter(pdfRendererCore)
-            val v = LayoutInflater.from(context).inflate(R.layout.layout_lib_pdf_rendererview, this, false)
-            addView(v)
-            recyclerView = findViewById(R.id.recyclerView)
-            recyclerView.apply {
-                adapter = pdfViewAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            }
-        })
+        handler.post({ init(file) })
+    }
+
+    private fun init(file: File) {
+        pdfRendererCore = PdfRendererCore(context, file)
+        pdfViewAdapter = PdfViewAdapter(pdfRendererCore)
+        val v = LayoutInflater.from(context).inflate(R.layout.layout_lib_pdf_rendererview, this, false)
+        addView(v)
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.apply {
+            adapter = pdfViewAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            itemAnimator = DefaultItemAnimator()
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
     }
 }
