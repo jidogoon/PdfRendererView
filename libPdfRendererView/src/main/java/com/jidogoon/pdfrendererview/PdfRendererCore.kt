@@ -26,7 +26,7 @@ class PdfRendererCore(private val context: Context, pdfFile: File) {
     private fun initCache() {
         val cache = File(context.cacheDir, cachePath)
         if (cache.exists())
-            cache.delete()
+            cache.deleteRecursively()
         cache.mkdirs()
     }
 
@@ -43,7 +43,7 @@ class PdfRendererCore(private val context: Context, pdfFile: File) {
         val savePath = File(File(context.cacheDir, cachePath), pageNo.toString())
         savePath.createNewFile()
         val fos = FileOutputStream(savePath)
-        bitmap.compress(CompressFormat.JPEG, 70, fos)
+        bitmap.compress(CompressFormat.PNG, 100, fos)
         fos.flush()
         fos.close()
     }

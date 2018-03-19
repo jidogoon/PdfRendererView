@@ -23,6 +23,9 @@ class PdfRendererView @JvmOverloads constructor(
             override fun onDownloadSuccess(absolutePath: String) {
                 initWithPath(absolutePath)
             }
+            override fun onError(error: Throwable) {
+                error.printStackTrace()
+            }
         })
     }
 
@@ -40,16 +43,11 @@ class PdfRendererView @JvmOverloads constructor(
         val v = LayoutInflater.from(context).inflate(R.layout.layout_lib_pdf_rendererview, this, false)
         addView(v)
         recyclerView = findViewById(R.id.recyclerView)
-
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
-
         recyclerView.apply {
             adapter = pdfViewAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            onFlingListener = snapHelper
         }
     }
 }
