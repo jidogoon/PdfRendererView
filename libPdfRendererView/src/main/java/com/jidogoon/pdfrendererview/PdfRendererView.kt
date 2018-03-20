@@ -13,6 +13,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.layout_lib_pdf_rendererview.view.*
 import java.io.File
+import java.net.URLEncoder
 
 /**
  * Created by jidogoon on 2018. 3. 16..
@@ -88,7 +89,7 @@ class PdfRendererView @JvmOverloads constructor(
         webView.visibility = View.VISIBLE
         webView.settings.javaScriptEnabled = true
         webView.webViewClient = PdfWebViewClient()
-        webView.loadUrl("https://drive.google.com/viewer/viewer?hl=en&embedded=true&url=$url")
+        webView.loadUrl("https://drive.google.com/viewer/viewer?hl=en&embedded=true&url=${URLEncoder.encode(url, "UTF-8")}")
     }
 
     inner class PdfWebViewClient: WebViewClient() {
