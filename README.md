@@ -9,7 +9,7 @@
 Getting Started
 ================
 
-Getting started is easy. Just add the library as a dependency in your projects build.gradle file. Be sure you've listed mavenCentral as a repository:
+Getting started is easy. Just add the library as a dependency in your projects build.gradle file. Be sure you've listed jCenter as a repository:
 
 ```Gradle
 repositories {
@@ -33,11 +33,11 @@ Using the module is not much different from using any other EditText view. Simpl
 ```
 
 ```kotlin
-pdfView.initWithFile(File("pdf file path"))
+pdfView.initWithFile(File("/sdcard/downloads/PDFFile.pdf"))
 ```
 
 ```kotlin
-pdfView.initWithPath("pdf file path")
+pdfView.initWithPath("/sdcard/downloads/PDFFile.pdf")
 ```
 
 ```kotlin
