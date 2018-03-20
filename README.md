@@ -17,7 +17,7 @@ repositories {
 }
         
 dependencies{
-    implementation 'com.jidogoon:PdfRendererView:1.0.1'
+    implementation 'com.jidogoon:PdfRendererView:1.0.2'
 }
 ```
 
