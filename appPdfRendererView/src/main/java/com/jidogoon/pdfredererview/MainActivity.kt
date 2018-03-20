@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
                 loading.visibility = View.GONE
             }
         }
-        pdfView.initWithUrl("https://s3.ap-northeast-2.amazonaws.com/wanted-www/events/145/Wanted_Resume_Coach_List.pdf")
-        //pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf")
+        pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf")
     }
 }

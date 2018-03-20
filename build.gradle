@@ -4,7 +4,7 @@ ext {
     buildTools = "27.0.3"
     compileSdk = 27
     targetSdk = 25
-    minSdk = 21
+    minSdk = 14
     supportLib = "27.1.0"
     versionCode = 1
     versionName = "1.0"
