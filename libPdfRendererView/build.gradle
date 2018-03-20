@@ -7,7 +7,7 @@ publish {
     userOrg = 'jidogoon'
     groupId = 'com.jidogoon'
     artifactId = 'PdfRendererView'
-    publishVersion = '1.0'
+    publishVersion = rootProject.publishVersion
     desc = 'PdfRendererView based on Android PdfRenderer (added in API 21)'
     website = 'https://github.com/jidogoon/PdfRendererView'
 }
@@ -18,7 +18,7 @@ android {
         minSdkVersion rootProject.minSdk
         targetSdkVersion rootProject.targetSdk
         versionCode 1
-        versionName "1.0"
+        versionName rootProject.publishVersion
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
