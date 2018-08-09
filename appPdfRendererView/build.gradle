@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.compileSdk
-    buildToolsVersion rootProject.buildTools
     defaultConfig {
         applicationId "com.jidogoon.pdfredererview"
         minSdkVersion rootProject.minSdk
@@ -26,12 +25,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ["*.jar"], dir: "libs")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$rootProject.supportLib"
     implementation "com.facebook.stetho:stetho:1.5.0"
     implementation project(":libPdfRendererView")
     testImplementation "junit:junit:4.12"
-    testImplementation 'org.mockito:mockito-core:2.13.0'
-    androidTestImplementation "com.android.support.test:runner:1.0.1"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.1"
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
 }
