@@ -34,14 +34,18 @@ Using the module is not much different from using any other EditText view. Simpl
 
 ```kotlin
 pdfView.initWithFile(File("/sdcard/downloads/PDFFile.pdf"))
+
+or
+
+pdfView.initWithFile(File("/sdcard/downloads/PDFFile.pdf"), Quality.NORMAL)
 ```
 
 ```kotlin
-pdfView.initWithPath("/sdcard/downloads/PDFFile.pdf")
+pdfView.initWithPath("/sdcard/downloads/PDFFile.pdf", Quality.FAST)
 ```
 
 ```kotlin
-pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf")
+pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf", Quality.ENHANCED)
 ```
 
 You're done!
