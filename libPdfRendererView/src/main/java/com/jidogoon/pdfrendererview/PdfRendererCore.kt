@@ -1,5 +1,6 @@
 package com.jidogoon.pdfrendererview
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.createBitmap
@@ -8,6 +9,7 @@ import android.os.ParcelFileDescriptor
 import android.widget.ImageView
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
+import android.os.Build
 import java.io.*
 
 
@@ -48,14 +50,17 @@ class PdfRendererCore(private val context: Context, pdfFile: File) {
         fos.close()
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Throws(IOException::class)
     private fun openPdfFile(pdfFile: File) {
         val fileDescriptor = ParcelFileDescriptor.open(pdfFile, ParcelFileDescriptor.MODE_READ_ONLY)
         pdfRenderer = PdfRenderer(fileDescriptor)
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun getPageCount(): Int = pdfRenderer.pageCount
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun renderPage(imageView: ImageView, pageNo: Int) {
         if (pageNo >= getPageCount())
             return
