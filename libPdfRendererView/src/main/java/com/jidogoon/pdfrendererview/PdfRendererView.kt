@@ -1,5 +1,6 @@
 package com.jidogoon.pdfrendererview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.support.v7.widget.*
@@ -32,7 +33,7 @@ class PdfRendererView @JvmOverloads constructor(
         fun onError(error: Throwable) {}
     }
 
-    fun initWithUrl(url: String) {
+    fun initWithUrl(url: String, quality: Quality = Quality.NORMAL) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             initUnderKitkat(url)
             statusListener?.onDownloadStart()
@@ -45,7 +46,7 @@ class PdfRendererView @JvmOverloads constructor(
                 statusListener?.onDownloadStart()
             }
             override fun onDownloadSuccess(absolutePath: String) {
-                initWithPath(absolutePath)
+                initWithPath(absolutePath, quality)
                 statusListener?.onDownloadSuccess()
             }
             override fun onError(error: Throwable) {
@@ -55,20 +56,20 @@ class PdfRendererView @JvmOverloads constructor(
         })
     }
 
-    fun initWithPath(path: String) {
+    fun initWithPath(path: String, quality: Quality) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             throw UnsupportedOperationException("should be over API 21")
-        initWithFile(File(path))
+        initWithFile(File(path), quality)
     }
 
-    fun initWithFile(file: File) {
+    fun initWithFile(file: File, quality: Quality) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             throw UnsupportedOperationException("should be over API 21")
-        init(file)
+        init(file, quality)
     }
 
-    private fun init(file: File) {
-        pdfRendererCore = PdfRendererCore(context, file)
+    private fun init(file: File, quality: Quality) {
+        pdfRendererCore = PdfRendererCore(context, file, quality)
         pdfViewAdapter = PdfViewAdapter(pdfRendererCore)
         val v = LayoutInflater.from(context).inflate(R.layout.layout_lib_pdf_rendererview, this, false)
         addView(v)
@@ -81,6 +82,7 @@ class PdfRendererView @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun initUnderKitkat(url: String) {
         val v = LayoutInflater.from(context).inflate(R.layout.layout_lib_pdf_rendererview, this, false)
         addView(v)

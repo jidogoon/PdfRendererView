@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.jidogoon.pdfrendererview.PdfRendererView
+import com.jidogoon.pdfrendererview.Quality
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +23,6 @@ class MainActivity : AppCompatActivity() {
                 loading.visibility = View.GONE
             }
         }
-        pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf")
+        pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf", Quality.NORMAL)
     }
 }

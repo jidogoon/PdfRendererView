@@ -3,11 +3,11 @@ package com.jidogoon.pdfrendererview
 import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Bitmap.createBitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
 import android.widget.ImageView
 import android.graphics.Bitmap.CompressFormat
+import android.graphics.Bitmap.createBitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import java.io.*
@@ -16,7 +16,7 @@ import java.io.*
 /**
  * Created by jidogoon on 2018. 3. 16..
  */
-class PdfRendererCore(private val context: Context, pdfFile: File) {
+class PdfRendererCore(private val context: Context, pdfFile: File, private val quality: Quality) {
     private val cachePath = "___pdf___cache___"
     private lateinit var pdfRenderer: PdfRenderer
 
@@ -72,7 +72,7 @@ class PdfRendererCore(private val context: Context, pdfFile: File) {
         }
 
         val pdfPage = pdfRenderer.openPage(pageNo)
-        bitmap = createBitmap(pdfPage.width, pdfPage.height, Bitmap.Config.ARGB_8888)
+        bitmap = createBitmap(pdfPage.width * quality.ratio, pdfPage.height * quality.ratio, Bitmap.Config.ARGB_8888)
         pdfPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
         pdfPage.close()
         imageView.setImageBitmap(bitmap)
