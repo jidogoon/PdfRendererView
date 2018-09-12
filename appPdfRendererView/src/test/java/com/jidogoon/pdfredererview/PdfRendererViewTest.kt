@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.ParcelFileDescriptor
 import com.jidogoon.pdfrendererview.PdfDownloader
 import com.jidogoon.pdfrendererview.PdfRendererCore
+import com.jidogoon.pdfrendererview.Quality
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -39,7 +40,7 @@ class PdfRendererViewTest {
     @Test
     fun initializeTest() {
         val pdfFile = File("Wanted_Resume_Coach_List.pdf")
-        val pdfRendererCore = PdfRendererCore(mock(Context::class.java), pdfFile)
+        val pdfRendererCore = PdfRendererCore(mock(Context::class.java), pdfFile, Quality.NORMAL)
         Assert.assertEquals(pdfRendererCore.getPageCount(), 18)
     }
 }
