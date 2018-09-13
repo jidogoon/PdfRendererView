@@ -17,7 +17,7 @@ repositories {
 }
         
 dependencies{
-    implementation 'com.jidogoon:PdfRendererView:1.0.5'
+    implementation 'com.jidogoon:PdfRendererView:1.0.6'
 }
 ```
 
@@ -53,13 +53,22 @@ pdfView.statusListener = object: PdfRendererView.StatusCallBack {
     override fun onDownloadStart() {
         loading.visibility = View.VISIBLE
     }
+    override fun onDownloadProgress(progress: Int, downloadedBytes: Long, totalBytes: Long?) {
+        super.onDownloadProgress(progress, downloadedBytes, totalBytes)
+        println("onDownloadProgress = $progress% $downloadedBytes/$totalBytes")
+    }
     override fun onDownloadSuccess() {
-        // downloading progress is not supported yet. will be added soon.
         loading.visibility = View.GONE
     }
     override fun onError(error: Throwable) {
         loading.visibility = View.GONE
     }
+
+    override fun onPageChanged(currentPage: Int, totalPage: Int) {
+        super.onPageChanged(currentPage, totalPage)
+        println("onPageChanged = $currentPage/$totalPage")
+    }
 }
+
 ```
 You're done!

@@ -7,7 +7,7 @@ ext {
     supportLib = "27.1.1"
     versionCode = 1
     versionName = "1.0"
-    publishVersion = "1.0.5"
+    publishVersion = "1.0.6"
 }
 
 buildscript {
