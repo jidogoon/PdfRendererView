@@ -50,6 +50,12 @@ class PdfRendererView @JvmOverloads constructor(
             override fun onDownloadStart() {
                 statusListener?.onDownloadStart()
             }
+            override fun onDownloadProgress(currentBytes: Long, totalBytes: Long) {
+                var progress = (currentBytes.toFloat() / totalBytes.toFloat() * 100F).toInt()
+                if (progress >= 100)
+                    progress = 100
+                statusListener?.onDownloadProgress(progress, currentBytes, totalBytes)
+            }
             override fun onDownloadSuccess(absolutePath: String) {
                 initWithPath(absolutePath, quality)
                 statusListener?.onDownloadSuccess()

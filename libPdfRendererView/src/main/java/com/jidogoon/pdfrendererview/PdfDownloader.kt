@@ -14,6 +14,7 @@ class PdfDownloader(url: String, private val listener: StatusListener) {
     interface StatusListener {
         fun getContext(): Context
         fun onDownloadStart() {}
+        fun onDownloadProgress(currentBytes: Long, totalBytes: Long) {}
         fun onDownloadSuccess(absolutePath: String) {}
         fun onError(error: Throwable) {}
     }
@@ -28,13 +29,29 @@ class PdfDownloader(url: String, private val listener: StatusListener) {
         if (outputFile.exists())
             outputFile.delete()
         try {
+            val bufferSize = 8192
             val url = URL(downloadUrl)
             val connection = url.openConnection()
             connection.connect()
-            val inputStream = BufferedInputStream(url.openStream(), 8192)
-            inputStream.use {
-                outputFile.outputStream().use { inputStream.copyTo(it) }
-            }
+
+            val totalLength = connection.contentLength
+            val inputStream = BufferedInputStream(url.openStream(), bufferSize)
+            val outputStream = outputFile.outputStream()
+            var downloaded = 0
+
+            do {
+                val data = ByteArray(bufferSize)
+                val count = inputStream.read(data)
+                if (count == -1)
+                    break
+                if (totalLength > 0) {
+                    downloaded += bufferSize
+                    if (BuildConfig.DEBUG)
+                        println("downloaded = $downloaded/$totalLength")
+                    launch(UI) { listener.onDownloadProgress(downloaded.toLong(), totalLength.toLong()) }
+                }
+                outputStream.write(data, 0, count)
+            } while (true)
         }
         catch (e: Exception) {
             e.printStackTrace()

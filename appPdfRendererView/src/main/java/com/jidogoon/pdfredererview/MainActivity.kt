@@ -12,12 +12,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         pdfView.statusListener = object: PdfRendererView.StatusCallBack {
             override fun onDownloadStart() {
                 loading.visibility = View.VISIBLE
             }
             override fun onDownloadProgress(progress: Int, downloadedBytes: Long, totalBytes: Long?) {
                 super.onDownloadProgress(progress, downloadedBytes, totalBytes)
+                println("onDownloadProgress = $progress% $downloadedBytes/$totalBytes")
+                title = "Downloading... $progress%"
             }
             override fun onDownloadSuccess() {
                 loading.visibility = View.GONE
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageChanged(currentPage: Int, totalPage: Int) {
                 super.onPageChanged(currentPage, totalPage)
                 println("onPageChanged = $currentPage/$totalPage")
+                title = "${currentPage+1}/$totalPage"
             }
         }
         pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf", Quality.NORMAL)
