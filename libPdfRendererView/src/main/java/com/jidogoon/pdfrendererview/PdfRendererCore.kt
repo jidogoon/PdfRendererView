@@ -76,7 +76,7 @@ class PdfRendererCore(private val context: Context, pdfFile: File, private val q
                     launch(UI) { onBitmapReady?.invoke(bitmap, pageNo) }
                 }
                 onBitmapReady?.let {
-                    prefetchNext(pageNo + 1)
+                    //prefetchNext(pageNo + 1)
                 }
             }
         }
@@ -97,7 +97,8 @@ class PdfRendererCore(private val context: Context, pdfFile: File, private val q
         }
 
         val startTime = System.currentTimeMillis()
-        //println("building pdf page start = $pageNo")
+        if (BuildConfig.DEBUG)
+            println("building pdf page start = $pageNo")
 
         val pdfPage = pdfRenderer.openPage(pageNo)
         bitmap = createBitmap(pdfPage.width * quality.ratio, pdfPage.height * quality.ratio, Bitmap.Config.ARGB_8888)
@@ -105,8 +106,10 @@ class PdfRendererCore(private val context: Context, pdfFile: File, private val q
         pdfPage.close()
         writeBitmapToCache(pageNo, bitmap)
 
-        val endTime = System.currentTimeMillis()
-        //println("building pdf page done = $pageNo ${endTime - startTime}ms")
+        if (BuildConfig.DEBUG) {
+            val endTime = System.currentTimeMillis()
+            println("building pdf page done = $pageNo ${endTime - startTime}ms")
+        }
         onBitmap(bitmap)
     }
 }

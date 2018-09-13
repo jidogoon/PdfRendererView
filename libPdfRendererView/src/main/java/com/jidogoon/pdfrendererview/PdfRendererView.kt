@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.support.v7.widget.*
+import android.support.v7.widget.RecyclerView.NO_POSITION
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -26,12 +27,15 @@ class PdfRendererView @JvmOverloads constructor(
     private lateinit var pdfRendererCore: PdfRendererCore
     private lateinit var pdfViewAdapter: PdfViewAdapter
     var statusListener: StatusCallBack? = null
+    val totalPageCount: Int
+    get() { return pdfRendererCore.getPageCount() }
 
     interface StatusCallBack {
         fun onDownloadStart() {}
-        fun onDownloadProgress(progress: Int) {}
+        fun onDownloadProgress(progress: Int, downloadedBytes: Long, totalBytes: Long?) {}
         fun onDownloadSuccess() {}
         fun onError(error: Throwable) {}
+        fun onPageChanged(currentPage: Int, totalPage: Int) {}
     }
 
     fun initWithUrl(url: String, quality: Quality = Quality.NORMAL) {
@@ -80,6 +84,25 @@ class PdfRendererView @JvmOverloads constructor(
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            addOnScrollListener(scrollListener)
+        }
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            (recyclerView.layoutManager as LinearLayoutManager).run {
+                var foundPosition = findFirstCompletelyVisibleItemPosition()
+                if (foundPosition != NO_POSITION) {
+                    statusListener?.onPageChanged(foundPosition, totalPageCount)
+                    return@run
+                }
+                foundPosition = findFirstVisibleItemPosition()
+                if (foundPosition != NO_POSITION) {
+                    statusListener?.onPageChanged(foundPosition, totalPageCount)
+                    return@run
+                }
+            }
         }
     }
 

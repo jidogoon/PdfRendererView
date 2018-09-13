@@ -4,6 +4,8 @@
     android:id="@+id/pdfPageView"
     android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="30dp"
+    android:scaleType="fitCenter"
     android:padding="0dp"
     android:layout_margin="0dp"/>

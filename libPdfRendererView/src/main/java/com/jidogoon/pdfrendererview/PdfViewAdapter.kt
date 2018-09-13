@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.LinearInterpolator
 import kotlinx.android.synthetic.main.list_item_lib_pdf_page.view.*
 
 /**
@@ -26,12 +28,21 @@ class PdfViewAdapter(private val renderer: PdfRendererCore): RecyclerView.Adapte
 
     inner class PdfPageViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind() {
-            itemView.pdfPageView.setImageBitmap(null)
-            renderer.renderPage(adapterPosition) { bitmap: Bitmap?, pageNo: Int ->
-                if (pageNo != adapterPosition)
-                    return@renderPage
-                bitmap?.let {
-                    itemView.pdfPageView.setImageBitmap(bitmap)
+            with(itemView) {
+                pdfPageView.setImageBitmap(null)
+                renderer.renderPage(adapterPosition) { bitmap: Bitmap?, pageNo: Int ->
+                    if (pageNo != adapterPosition)
+                        return@renderPage
+                    bitmap?.let {
+                        pdfPageView.layoutParams = pdfPageView.layoutParams.apply {
+                            height = (pdfPageView.width.toFloat() / ((bitmap.width.toFloat() / bitmap.height.toFloat()))).toInt()
+                        }
+                        pdfPageView.setImageBitmap(bitmap)
+                        pdfPageView.animation = AlphaAnimation(0F, 1F).apply {
+                            interpolator = LinearInterpolator()
+                            duration = 300
+                        }
+                    }
                 }
             }
         }
