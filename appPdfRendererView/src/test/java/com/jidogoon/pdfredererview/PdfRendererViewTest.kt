@@ -1,7 +1,6 @@
 package com.jidogoon.pdfredererview
 
 import android.content.Context
-import android.os.ParcelFileDescriptor
 import com.jidogoon.pdfrendererview.PdfDownloader
 import com.jidogoon.pdfrendererview.PdfRendererCore
 import com.jidogoon.pdfrendererview.Quality
@@ -9,7 +8,6 @@ import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito.mock
 import java.io.File
-import java.io.FileDescriptor
 
 /**
  * Created by jidogoon on 2018. 3. 19..

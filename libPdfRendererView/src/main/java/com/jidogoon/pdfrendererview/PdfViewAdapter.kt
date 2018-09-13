@@ -1,5 +1,6 @@
 package com.jidogoon.pdfrendererview
 
+import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,14 @@ class PdfViewAdapter(private val renderer: PdfRendererCore): RecyclerView.Adapte
 
     inner class PdfPageViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind() {
-            renderer.renderPage(itemView.pdfPageView, adapterPosition)
+            itemView.pdfPageView.setImageBitmap(null)
+            renderer.renderPage(adapterPosition) { bitmap: Bitmap?, pageNo: Int ->
+                if (pageNo != adapterPosition)
+                    return@renderPage
+                bitmap?.let {
+                    itemView.pdfPageView.setImageBitmap(bitmap)
+                }
+            }
         }
     }
 }

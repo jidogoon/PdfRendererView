@@ -2,7 +2,6 @@ package com.jidogoon.pdfrendererview
 
 import android.content.Context
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import java.io.BufferedInputStream
 import java.io.File
@@ -20,7 +19,7 @@ class PdfDownloader(url: String, private val listener: StatusListener) {
     }
 
     init {
-        async { download(url) }
+        launch { download(url) }
     }
 
     private fun download(downloadUrl: String) {

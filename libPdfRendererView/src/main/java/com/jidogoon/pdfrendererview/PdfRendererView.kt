@@ -29,6 +29,7 @@ class PdfRendererView @JvmOverloads constructor(
 
     interface StatusCallBack {
         fun onDownloadStart() {}
+        fun onDownloadProgress(progress: Int) {}
         fun onDownloadSuccess() {}
         fun onError(error: Throwable) {}
     }
