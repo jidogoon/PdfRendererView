@@ -24,7 +24,7 @@ dependencies{
 Using The Module
 ================
 
-Using the module is not much different from using any other EditText view. Simply define the view in your XML layout:
+Using the module is not much different from using any other view. Simply define the view in your XML layout:
 
 ```xml
 <com.jidogoon.pdfrendererview.PdfRendererView
@@ -34,9 +34,9 @@ Using the module is not much different from using any other EditText view. Simpl
 
 ```kotlin
 pdfView.initWithFile(File("/sdcard/downloads/PDFFile.pdf"))
-
+```
 or
-
+```
 pdfView.initWithFile(File("/sdcard/downloads/PDFFile.pdf"), Quality.NORMAL)
 ```
 
@@ -48,4 +48,18 @@ pdfView.initWithPath("/sdcard/downloads/PDFFile.pdf", Quality.FAST)
 pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf", Quality.ENHANCED)
 ```
 
+```kotlin
+pdfView.statusListener = object: PdfRendererView.StatusCallBack {
+    override fun onDownloadStart() {
+        loading.visibility = View.VISIBLE
+    }
+    override fun onDownloadSuccess() {
+        // downloading progress is not supported yet. will be added soon.
+        loading.visibility = View.GONE
+    }
+    override fun onError(error: Throwable) {
+        loading.visibility = View.GONE
+    }
+}
+```
 You're done!
