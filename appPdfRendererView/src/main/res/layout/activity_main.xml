@@ -9,7 +9,9 @@
     <com.jidogoon.pdfrendererview.PdfRendererView
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:quality="normal"
+        app:showDivider="false"/>
 
     <ProgressBar
         android:id="@+id/loading"

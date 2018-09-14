@@ -2,6 +2,7 @@ package com.jidogoon.pdfrendererview
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.TypedArray
 import android.os.Build
 import android.support.v7.widget.*
 import android.support.v7.widget.RecyclerView.NO_POSITION
@@ -26,6 +27,9 @@ class PdfRendererView @JvmOverloads constructor(
     private lateinit var recyclerView: RecyclerView
     private lateinit var pdfRendererCore: PdfRendererCore
     private lateinit var pdfViewAdapter: PdfViewAdapter
+    private var quality = Quality.NORMAL
+    private var showDivider = true
+
     var statusListener: StatusCallBack? = null
     val totalPageCount: Int
     get() { return pdfRendererCore.getPageCount() }
@@ -38,7 +42,7 @@ class PdfRendererView @JvmOverloads constructor(
         fun onPageChanged(currentPage: Int, totalPage: Int) {}
     }
 
-    fun initWithUrl(url: String, quality: Quality = Quality.NORMAL) {
+    fun initWithUrl(url: String, quality: Quality = this.quality) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             initUnderKitkat(url)
             statusListener?.onDownloadStart()
@@ -67,13 +71,13 @@ class PdfRendererView @JvmOverloads constructor(
         })
     }
 
-    fun initWithPath(path: String, quality: Quality) {
+    fun initWithPath(path: String, quality: Quality = this.quality) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             throw UnsupportedOperationException("should be over API 21")
         initWithFile(File(path), quality)
     }
 
-    fun initWithFile(file: File, quality: Quality) {
+    fun initWithFile(file: File, quality: Quality = this.quality) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             throw UnsupportedOperationException("should be over API 21")
         init(file, quality)
@@ -89,7 +93,8 @@ class PdfRendererView @JvmOverloads constructor(
             adapter = pdfViewAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            if (showDivider)
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             addOnScrollListener(scrollListener)
         }
     }
@@ -139,5 +144,21 @@ class PdfRendererView @JvmOverloads constructor(
             super.onReceivedError(view, errorCode, description, failingUrl)
             statusListener?.onError(Throwable("Web resource error"))
         }
+    }
+
+    init {
+        getAttrs(attrs, defStyleAttr)
+    }
+
+    private fun getAttrs(attrs: AttributeSet?, defStyle: Int) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.PdfRendererView, defStyle, 0)
+        setTypeArray(typedArray)
+    }
+
+    private fun setTypeArray(typedArray: TypedArray) {
+        val ratio = typedArray.getInt(R.styleable.PdfRendererView_quality, Quality.NORMAL.ratio)
+        quality = Quality.values().first { it.ratio == ratio }
+        showDivider = typedArray.getBoolean(R.styleable.PdfRendererView_showDivider, true)
+        typedArray.recycle()
     }
 }

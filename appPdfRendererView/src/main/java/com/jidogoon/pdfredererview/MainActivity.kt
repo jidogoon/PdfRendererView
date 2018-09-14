@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 title = "${currentPage+1}/$totalPage"
             }
         }
-        pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf", Quality.NORMAL)
+        pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf")
         //pdfView.initWithUrl("https://s3.ap-northeast-2.amazonaws.com/wanted-www/events/205/rcs1_coach_list.pdf", Quality.NORMAL)
         //pdfView.initWithUrl("https://www.office.xerox.com/latest/SFTBR-04U.PDF")
     }
