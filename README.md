@@ -14,6 +14,7 @@ Getting started is easy. Just add the library as a dependency in your projects b
 ```Gradle
 repositories {
     jcenter()
+    maven { url "https://jitpack.io" }
 }
         
 dependencies{
