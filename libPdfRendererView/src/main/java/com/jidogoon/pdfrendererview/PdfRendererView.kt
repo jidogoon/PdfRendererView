@@ -28,6 +28,7 @@ class PdfRendererView @JvmOverloads constructor(
     private lateinit var pdfRendererCore: PdfRendererCore
     private lateinit var pdfViewAdapter: PdfViewAdapter
     private var quality = Quality.NORMAL
+    private var engine = Engine.DEFAULT
     private var showDivider = true
 
     var statusListener: StatusCallBack? = null
@@ -42,8 +43,8 @@ class PdfRendererView @JvmOverloads constructor(
         fun onPageChanged(currentPage: Int, totalPage: Int) {}
     }
 
-    fun initWithUrl(url: String, quality: Quality = this.quality) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+    fun initWithUrl(url: String, quality: Quality = this.quality, engine: Engine = this.engine) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || engine == Engine.GOOGLE) {
             initUnderKitkat(url)
             statusListener?.onDownloadStart()
             return
@@ -158,7 +159,10 @@ class PdfRendererView @JvmOverloads constructor(
     private fun setTypeArray(typedArray: TypedArray) {
         val ratio = typedArray.getInt(R.styleable.PdfRendererView_quality, Quality.NORMAL.ratio)
         quality = Quality.values().first { it.ratio == ratio }
+        val engineValue = typedArray.getInt(R.styleable.PdfRendererView_engine, Engine.DEFAULT.value)
+        engine = Engine.values().first { it.value == engineValue }
         showDivider = typedArray.getBoolean(R.styleable.PdfRendererView_showDivider, true)
+
         typedArray.recycle()
     }
 }
