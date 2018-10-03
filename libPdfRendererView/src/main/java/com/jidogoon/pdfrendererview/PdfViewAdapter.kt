@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.list_item_lib_pdf_page.view.*
 /**
  * Created by jidogoon on 2018. 3. 16..
  */
-class PdfViewAdapter(private val renderer: PdfRendererCore): RecyclerView.Adapter<PdfViewAdapter.PdfPageViewHolder>() {
+internal class PdfViewAdapter(private val renderer: PdfRendererCore): RecyclerView.Adapter<PdfViewAdapter.PdfPageViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PdfPageViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item_lib_pdf_page, parent, false)
         return PdfPageViewHolder(v)

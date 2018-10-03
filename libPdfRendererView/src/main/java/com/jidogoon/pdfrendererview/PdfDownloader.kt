@@ -10,7 +10,7 @@ import java.net.URL
 /**
  * Created by jidogoon on 2018. 3. 16..
  */
-class PdfDownloader(url: String, private val listener: StatusListener) {
+internal class PdfDownloader(url: String, private val listener: StatusListener) {
     interface StatusListener {
         fun getContext(): Context
         fun onDownloadStart() {}

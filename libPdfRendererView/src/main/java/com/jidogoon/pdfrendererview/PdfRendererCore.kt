@@ -21,7 +21,7 @@ import kotlin.math.min
  * Created by jidogoon on 2018. 3. 16..
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class PdfRendererCore(private val context: Context, pdfFile: File, private val quality: Quality) {
+internal class PdfRendererCore(private val context: Context, pdfFile: File, private val quality: Quality) {
     companion object {
         private const val PREFETCH_COUNT = 3
     }

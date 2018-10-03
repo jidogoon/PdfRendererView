@@ -125,11 +125,11 @@ class PdfRendererView @JvmOverloads constructor(
         recyclerView.visibility = View.GONE
         webView.visibility = View.VISIBLE
         webView.settings.javaScriptEnabled = true
-        webView.webViewClient = PdfWebViewClient()
+        webView.webViewClient = PdfWebViewClient(statusListener)
         webView.loadUrl("https://drive.google.com/viewer/viewer?hl=en&embedded=true&url=${URLEncoder.encode(url, "UTF-8")}")
     }
 
-    inner class PdfWebViewClient: WebViewClient() {
+    internal class PdfWebViewClient(private val statusListener: StatusCallBack?): WebViewClient() {
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             statusListener?.onDownloadSuccess()
