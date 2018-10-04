@@ -18,7 +18,7 @@ repositories {
 }
         
 dependencies{
-    implementation 'com.jidogoon:PdfRendererView:1.0.6'
+    implementation 'com.jidogoon:PdfRendererView:1.0.7'
 }
 ```
 
@@ -37,7 +37,7 @@ Using the module is not much different from using any other view. Simply define 
 pdfView.initWithFile(File("/sdcard/downloads/PDFFile.pdf"))
 ```
 or
-```
+```kotlin
 pdfView.initWithFile(File("/sdcard/downloads/PDFFile.pdf"), Quality.NORMAL)
 ```
 
@@ -47,6 +47,11 @@ pdfView.initWithPath("/sdcard/downloads/PDFFile.pdf", Quality.FAST)
 
 ```kotlin
 pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf", Quality.ENHANCED)
+```
+
+You can view PDF with Google Docs Viewer using options below.
+```kotlin
+pdfView.initWithUrl("https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf", engine = Engine.GOOGLE)
 ```
 
 ```kotlin
@@ -70,6 +75,17 @@ pdfView.statusListener = object: PdfRendererView.StatusCallBack {
         println("onPageChanged = $currentPage/$totalPage")
     }
 }
-
 ```
+
+There's more options can set on XML.
+```xml
+<com.jidogoon.pdfrendererview.PdfRendererView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:quality="normal"
+        app:engine="internal"
+        app:showDivider="false"/>
+```
+
 You're done!
