@@ -157,11 +157,11 @@ class PdfRendererView @JvmOverloads constructor(
     }
 
     private fun setTypeArray(typedArray: TypedArray) {
-        val ratio = typedArray.getInt(R.styleable.PdfRendererView_quality, Quality.NORMAL.ratio)
+        val ratio = typedArray.getInt(R.styleable.PdfRendererView_pdfView_quality, Quality.NORMAL.ratio)
         quality = Quality.values().first { it.ratio == ratio }
-        val engineValue = typedArray.getInt(R.styleable.PdfRendererView_engine, Engine.DEFAULT.value)
+        val engineValue = typedArray.getInt(R.styleable.PdfRendererView_pdfView_engine, Engine.DEFAULT.value)
         engine = Engine.values().first { it.value == engineValue }
-        showDivider = typedArray.getBoolean(R.styleable.PdfRendererView_showDivider, true)
+        showDivider = typedArray.getBoolean(R.styleable.PdfRendererView_pdfView_showDivider, true)
 
         typedArray.recycle()
     }

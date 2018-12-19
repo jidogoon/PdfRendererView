@@ -14,6 +14,7 @@ import kotlinx.coroutines.experimental.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.Exception
 import kotlin.math.min
 
 
@@ -45,7 +46,9 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
         if (!loadPath.exists())
             return null
 
-        return BitmapFactory.decodeFile(loadPath.absolutePath)
+        return try {
+            BitmapFactory.decodeFile(loadPath.absolutePath)
+        } catch (e: Exception) { null }
     }
 
     @Throws(IOException::class)
@@ -100,16 +103,21 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
         if (BuildConfig.DEBUG)
             println("building pdf page start = $pageNo")
 
-        val pdfPage = pdfRenderer.openPage(pageNo)
-        bitmap = createBitmap(pdfPage.width * quality.ratio, pdfPage.height * quality.ratio, Bitmap.Config.ARGB_8888)
-        pdfPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-        pdfPage.close()
-        writeBitmapToCache(pageNo, bitmap)
+        try {
+            val pdfPage = pdfRenderer.openPage(pageNo)
+            bitmap = createBitmap(pdfPage.width * quality.ratio, pdfPage.height * quality.ratio, Bitmap.Config.ARGB_8888)
+            bitmap ?: return
+            pdfPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+            pdfPage.close()
+            writeBitmapToCache(pageNo, bitmap)
 
-        if (BuildConfig.DEBUG) {
-            val endTime = System.currentTimeMillis()
-            println("building pdf page done = $pageNo ${endTime - startTime}ms")
+            if (BuildConfig.DEBUG) {
+                val endTime = System.currentTimeMillis()
+                println("building pdf page done = $pageNo ${endTime - startTime}ms")
+            }
+            onBitmap(bitmap)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        onBitmap(bitmap)
     }
 }

@@ -18,7 +18,7 @@ repositories {
 }
         
 dependencies{
-    implementation 'com.jidogoon:PdfRendererView:1.0.7'
+    implementation 'com.jidogoon:PdfRendererView:1.0.8'
 }
 ```
 
@@ -83,9 +83,9 @@ There's more options can set on XML.
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:quality="normal"
-        app:engine="internal"
-        app:showDivider="false"/>
+        app:pdfView_quality="normal"
+        app:pdfView_engine="internal"
+        app:pdfView_showDivider="false"/>
 ```
 
 You're done!
