@@ -9,8 +9,10 @@ import android.graphics.BitmapFactory
 import android.graphics.pdf.PdfRenderer
 import android.os.Build
 import android.os.ParcelFileDescriptor
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -73,10 +75,10 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
         if (pageNo >= getPageCount())
             return
 
-        launch {
+        GlobalScope.async {
             synchronized(this@PdfRendererCore) {
                 buildBitmap(pageNo) { bitmap ->
-                    launch(UI) { onBitmapReady?.invoke(bitmap, pageNo) }
+                    GlobalScope.launch(Dispatchers.Main) { onBitmapReady?.invoke(bitmap, pageNo) }
                 }
                 onBitmapReady?.let {
                     //prefetchNext(pageNo + 1)

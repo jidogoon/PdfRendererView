@@ -29,12 +29,6 @@ android {
         }
     }
 
-    kotlin {
-        experimental {
-            coroutines "enable"
-        }
-    }
-
     lintOptions {
         abortOnError false
     }
@@ -43,7 +37,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0"
     implementation "com.android.support:appcompat-v7:$rootProject.supportLib"
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLib"
     implementation "com.github.chrisbanes:PhotoView:2.1.3"

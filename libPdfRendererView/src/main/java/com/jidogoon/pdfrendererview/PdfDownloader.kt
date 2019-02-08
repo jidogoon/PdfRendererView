@@ -1,8 +1,10 @@
 package com.jidogoon.pdfrendererview
 
 import android.content.Context
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.io.BufferedInputStream
 import java.io.File
 import java.net.URL
@@ -20,11 +22,11 @@ internal class PdfDownloader(url: String, private val listener: StatusListener) 
     }
 
     init {
-        launch { download(url) }
+        GlobalScope.async { download(url) }
     }
 
     private fun download(downloadUrl: String) {
-        launch(UI) { listener.onDownloadStart() }
+        GlobalScope.launch(Dispatchers.Main) { listener.onDownloadStart() }
         val outputFile = File(listener.getContext().cacheDir, "downloaded_pdf.pdf")
         if (outputFile.exists())
             outputFile.delete()
@@ -48,16 +50,16 @@ internal class PdfDownloader(url: String, private val listener: StatusListener) 
                     downloaded += bufferSize
                     if (BuildConfig.DEBUG)
                         println("downloaded = $downloaded/$totalLength")
-                    launch(UI) { listener.onDownloadProgress(downloaded.toLong(), totalLength.toLong()) }
+                    GlobalScope.launch(Dispatchers.Main) { listener.onDownloadProgress(downloaded.toLong(), totalLength.toLong()) }
                 }
                 outputStream.write(data, 0, count)
             } while (true)
         }
         catch (e: Exception) {
             e.printStackTrace()
-            launch(UI) { listener.onError(e) }
+            GlobalScope.launch(Dispatchers.Main) { listener.onError(e) }
             return
         }
-        launch(UI) { listener.onDownloadSuccess(outputFile.absolutePath) }
+        GlobalScope.launch(Dispatchers.Main) { listener.onDownloadSuccess(outputFile.absolutePath) }
     }
 }
