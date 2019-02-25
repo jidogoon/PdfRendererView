@@ -74,7 +74,7 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
 
     fun getPageCount(): Int = pdfRenderer.pageCount
 
-    private fun renderPage(pageNo: Int, onBitmapReady: ((bitmap: Bitmap?, pageNo: Int) -> Unit)? = null) {
+    fun renderPage(pageNo: Int, onBitmapReady: ((bitmap: Bitmap?, pageNo: Int) -> Unit)? = null) {
         if (pageNo >= getPageCount())
             return
 
