@@ -63,15 +63,18 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
         fos.close()
     }
 
-    @Throws(IOException::class)
     private fun openPdfFile(pdfFile: File) {
-        val fileDescriptor = ParcelFileDescriptor.open(pdfFile, ParcelFileDescriptor.MODE_READ_ONLY)
-        pdfRenderer = PdfRenderer(fileDescriptor)
+        try {
+            val fileDescriptor = ParcelFileDescriptor.open(pdfFile, ParcelFileDescriptor.MODE_READ_ONLY)
+            pdfRenderer = PdfRenderer(fileDescriptor)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun getPageCount(): Int = pdfRenderer.pageCount
 
-    fun renderPage(pageNo: Int, onBitmapReady: ((bitmap: Bitmap?, pageNo: Int) -> Unit)? = null) {
+    private fun renderPage(pageNo: Int, onBitmapReady: ((bitmap: Bitmap?, pageNo: Int) -> Unit)? = null) {
         if (pageNo >= getPageCount())
             return
 
