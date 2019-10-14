@@ -29,7 +29,7 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
         private const val PREFETCH_COUNT = 3
     }
     private val cachePath = "___pdf___cache___"
-    private lateinit var pdfRenderer: PdfRenderer
+    private var pdfRenderer: PdfRenderer? = null
 
     init {
         initCache()
@@ -72,7 +72,7 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
         }
     }
 
-    fun getPageCount(): Int = pdfRenderer.pageCount
+    fun getPageCount(): Int = pdfRenderer?.pageCount ?: 0
 
     fun renderPage(pageNo: Int, onBitmapReady: ((bitmap: Bitmap?, pageNo: Int) -> Unit)? = null) {
         if (pageNo >= getPageCount())
@@ -109,7 +109,7 @@ internal class PdfRendererCore(private val context: Context, pdfFile: File, priv
             println("building pdf page start = $pageNo")
 
         try {
-            val pdfPage = pdfRenderer.openPage(pageNo)
+            val pdfPage = pdfRenderer!!.openPage(pageNo)
             bitmap = createBitmap(pdfPage.width * quality.ratio, pdfPage.height * quality.ratio, Bitmap.Config.ARGB_8888)
             bitmap ?: return
             pdfPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
