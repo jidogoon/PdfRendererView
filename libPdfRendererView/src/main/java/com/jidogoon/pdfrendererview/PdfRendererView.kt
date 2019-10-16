@@ -3,8 +3,12 @@ package com.jidogoon.pdfrendererview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.v7.widget.*
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.NO_POSITION
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -30,6 +34,7 @@ class PdfRendererView @JvmOverloads constructor(
     private var quality = Quality.NORMAL
     private var engine = Engine.DEFAULT
     private var showDivider = true
+    private var divider: Drawable? = null
 
     var statusListener: StatusCallBack? = null
     val totalPageCount: Int
@@ -94,8 +99,11 @@ class PdfRendererView @JvmOverloads constructor(
             adapter = pdfViewAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             itemAnimator = DefaultItemAnimator()
-            if (showDivider)
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            if (showDivider) {
+                DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+                    divider?.let { setDrawable(it) }
+                }.let { addItemDecoration(it) }
+            }
             addOnScrollListener(scrollListener)
         }
     }
@@ -162,6 +170,7 @@ class PdfRendererView @JvmOverloads constructor(
         val engineValue = typedArray.getInt(R.styleable.PdfRendererView_pdfView_engine, Engine.DEFAULT.value)
         engine = Engine.values().first { it.value == engineValue }
         showDivider = typedArray.getBoolean(R.styleable.PdfRendererView_pdfView_showDivider, true)
+        divider = typedArray.getDrawable(R.styleable.PdfRendererView_pdfView_divider)
 
         typedArray.recycle()
     }
